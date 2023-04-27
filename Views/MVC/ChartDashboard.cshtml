@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Chart Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+<h2>Chart Dashboard</h2>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<div>
+    <canvas id="myChart" style="max-width:400px; max-height:430px"></canvas>
+</div>
+
+<br/>
+<script>
+    $(document).ready(function () {
+        var labels = [];
+        var values1 = [];
+                $.ajax({
+                    url: 'ShowChartDashboard',
+                    
+                    success: function (data) {
+                        console.log(data);
+                        chartData = data;
+                        console.log(chartData);
+                        
+                        console.log(chartData);
+                        chartData.forEach(function (item) {
+                            labels.push(item.priceRange);
+                            console.log(item.Count)
+                            values1.push(item.Count);
+                        });        
+                        console.log(values1[0]);
+                        var ctx = document.getElementById('myChart').getContext('2d');
+                       
+                        var myChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Number of Products',
+                                    data: values1,
+                                    backgroundColor: [
+                                        'rgba(255, 99,',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206,86 , 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)'
+                                    ],
+                                    borderColor:
+                                        [
+                                            'rgba(255, 99, 132, 1) ',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255,206, 86 , 1) ',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153,102,255,1)'
+                                        ],
+                                    borderWidth: 2,
+                                }]
+                            },
+                            options: {
+                                responsive: true
+                            }
+                        });
+                    }
+                });
+                
+});
+
+</script>
+
